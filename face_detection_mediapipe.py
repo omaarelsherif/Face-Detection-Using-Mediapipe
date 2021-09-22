@@ -41,12 +41,15 @@ def detectFromImg(image_path):
 		cv2.imshow('Face Detection', image)
 		cv2.waitKey(0)
 
-# Detect faces on video
-def detectFromVid(video_path):
-	"""Function to detect faces on a video"""
+# Detect faces on video or cam
+def detectFromVid(video_path=None, cam=False):
+	"""Function to detect faces on a video or cam"""
 
-	# Load the video
-	video = cv2.VideoCapture(video_path)
+	# Load the video or cam based on cam flag
+	if cam:
+		video = cv2.VideoCapture(0)
+	else:
+		video = cv2.VideoCapture(video_path)
 
 	# Using mediapipe face detector
 	with mp_face_detection.FaceDetection(min_detection_confidence=0.5) as face_detection:
@@ -82,48 +85,6 @@ def detectFromVid(video_path):
      
     	# End 
 	video.release()
- 
-# Detect faces on a cam
-def detectFromCam():
-	"""Function to detect faces on a web cam"""
-
-	# Load the video
-	cam = cv2.VideoCapture(0)
-
-	# Using mediapipe face detector
-	with mp_face_detection.FaceDetection(min_detection_confidence=0.5) as face_detection:
-
-		# Loop over video frames
-	    while True:
-         
-            # Get every frame from the cam
-	        success, image = cam.read()
-	
-		    # If there's no frmae exist on the cam 
-	        if not success:
-		        break
-    
-	        # Convert the BGR image to RGB
-	        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-	        image.flags.writeable = False
-
-	        # Get faces on the an image (frame)
-	        faces = face_detection.process(image)
-
-	        # Draw the face detection annotations on the image
-	        image.flags.writeable = True
-	        image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
-	        if faces.detections:
-	          for detection in faces.detections:
-	            mp_face_drawing.draw_detection(image, detection)
-		  
-		    # Show repeted images (Video)
-	        cv2.imshow('Face Detection', image)
-	        if cv2.waitKey(5) & 0xFF == 27:
-	          break
-     
-    	# End 
-	cam.release()
 
 # Get flag from cmd (img , vid or cam)
 flag = sys.argv[1]   
@@ -135,4 +96,4 @@ if flag == "img":
 elif flag == "vid":
     detectFromVid(f"{sys.argv[2]}")
 else:
-    detectFromCam()
+    detectFromVid(cam=True)

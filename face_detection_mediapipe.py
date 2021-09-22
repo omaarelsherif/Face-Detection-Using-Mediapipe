@@ -10,8 +10,8 @@ import cv2
 import mediapipe as mp
 
 # Initialize mediapipe face detector and drawer
-face_detector = mp.solutions.face_detection
-face_drawer   = mp.solutions.drawing_utils
+mp_face_detection = mp.solutions.face_detection
+mp_face_drawing   = mp.solutions.drawing_utils
 
 # Detect faces on an image
 def detectFromImg(image_path):
@@ -21,7 +21,7 @@ def detectFromImg(image_path):
 	image = cv2.imread(image_path)
 
 	# Using mediapipe face detector
-	with face_detector.FaceDetection(min_detection_confidence=0.5) as face_detection:
+	with mp_face_detection.FaceDetection(min_detection_confidence=0.5) as face_detection:
     
 		# Convert the BGR image to RGB
 		image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
@@ -35,7 +35,7 @@ def detectFromImg(image_path):
 		image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 		if faces.detections:
 			for detection in faces.detections:
-				face_drawer.draw_detection(image, detection)
+				mp_face_drawing.draw_detection(image, detection)
 		
 		# Show repeted images (Video)
 		cv2.imshow('Face Detection', image)
@@ -49,7 +49,7 @@ def detectFromVid(video_path):
 	video = cv2.VideoCapture(video_path)
 
 	# Using mediapipe face detector
-	with face_detector.FaceDetection(min_detection_confidence=0.5) as face_detection:
+	with mp_face_detection.FaceDetection(min_detection_confidence=0.5) as face_detection:
 
 		# Loop over video frames
 	    while True:
@@ -73,14 +73,14 @@ def detectFromVid(video_path):
 	        image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 	        if faces.detections:
 	          for detection in faces.detections:
-	            face_drawer.draw_detection(image, detection)
+	            mp_face_drawing.draw_detection(image, detection)
 		  
 		    # Show repeted images (Video)
 	        cv2.imshow('Face Detection', image)
 	        if cv2.waitKey(5) & 0xFF == 27:
 	          break
      
-    # End 
+    	# End 
 	video.release()
  
 # Detect faces on a cam
@@ -91,7 +91,7 @@ def detectFromCam():
 	cam = cv2.VideoCapture(0)
 
 	# Using mediapipe face detector
-	with face_detector.FaceDetection(min_detection_confidence=0.5) as face_detection:
+	with mp_face_detection.FaceDetection(min_detection_confidence=0.5) as face_detection:
 
 		# Loop over video frames
 	    while True:
@@ -115,14 +115,14 @@ def detectFromCam():
 	        image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 	        if faces.detections:
 	          for detection in faces.detections:
-	            face_drawer.draw_detection(image, detection)
+	            mp_face_drawing.draw_detection(image, detection)
 		  
 		    # Show repeted images (Video)
 	        cv2.imshow('Face Detection', image)
 	        if cv2.waitKey(5) & 0xFF == 27:
 	          break
      
-    # End 
+    	# End 
 	cam.release()
 
 # Get flag from cmd (img , vid or cam)

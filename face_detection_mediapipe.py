@@ -2,7 +2,7 @@
 """
 	Description :
 			Face detection implementation using mediapipe library on python, where we can implement this solution
-			on an image, a video or web cam using in python
+			on an image, a video or web cam where medipipe detect face bounding box and then we can draw it using opencv.
 """
 
 # Importing modules

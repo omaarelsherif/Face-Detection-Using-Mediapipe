@@ -4,7 +4,8 @@
 
 <!-- PROJECT DESCRIPTION -->
 ## ➲ Project description
-Implement face detection on an image, a video or web cam using mediapipe library on python
+Face detection implementation using mediapipe library on python, where we can implement this solution
+on an image, a video or web cam using in python
 
 <!-- PREREQUISTIES -->
 ## ➲ Prerequisites
